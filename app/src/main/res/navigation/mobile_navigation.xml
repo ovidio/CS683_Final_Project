@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_dashboard">
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.home.HomeFragment"-->
+<!--        android:label="@string/menu_home"-->
+<!--        tools:layout="@layout/fragment_home" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_gallery"-->
+<!--        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.gallery.GalleryFragment"-->
+<!--        android:label="@string/menu_gallery"-->
+<!--        tools:layout="@layout/fragment_gallery" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_slideshow"-->
+<!--        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.slideshow.SlideshowFragment"-->
+<!--        android:label="@string/menu_slideshow"-->
+<!--        tools:layout="@layout/fragment_slideshow" />-->
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/dashboard_fragment" />
+
+    <fragment
+        android:id="@+id/nav_weight"
+        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.weight.WeightFragment"
+        android:label="Weight"
+        tools:layout="@layout/weight_fragment" />
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.activity.ActivityFragment"
+        android:label="Activity"
+        tools:layout="@layout/activity_fragment" />
+
+    <fragment
+        android:id="@+id/nav_nutrition"
+        android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.nutrition.NutritionFragment"
+        android:label="Nutrition"
+        tools:layout="@layout/nutrition_fragment" />
+
+</navigation>

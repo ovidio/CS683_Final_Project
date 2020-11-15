@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "CS683_Ovidio_Reyna_Weight_Tracking_App"
