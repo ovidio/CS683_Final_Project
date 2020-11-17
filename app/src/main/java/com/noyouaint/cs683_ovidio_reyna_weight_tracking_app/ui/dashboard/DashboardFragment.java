@@ -52,20 +52,6 @@ public class DashboardFragment extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        AnyChartView anyChartView = (AnyChartView) getView().findViewById(R.id.any_chart_view);
-//
-//        Pie pie = AnyChart.pie();
-//
-//        List<DataEntry> data = new ArrayList<>();
-//        data.add(new ValueDataEntry("John", 10000));
-//        data.add(new ValueDataEntry("Jake", 12000));
-//        data.add(new ValueDataEntry("Peter", 18000));
-//
-//        pie.data(data);
-//
-//
-//        anyChartView.setChart(pie);
-
         AnyChartView anyChartView = (AnyChartView) getView().findViewById(R.id.any_chart_view);
 
         Cartesian cartesian = AnyChart.line();
