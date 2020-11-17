@@ -8,11 +8,12 @@ android {
 
     defaultConfig {
         applicationId "com.noyouaint.cs683_ovidio_reyna_weight_tracking_app"
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

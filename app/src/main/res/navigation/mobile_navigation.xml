@@ -9,24 +9,24 @@
         android:id="@+id/nav_dashboard"
         android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.dashboard.DashboardFragment"
         android:label="Dashboard"
-        tools:layout="@layout/dashboard_fragment" />
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/nav_weight"
         android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.weight.WeightFragment"
         android:label="Weight"
-        tools:layout="@layout/weight_fragment" />
+        tools:layout="@layout/fragment_weight" />
 
     <fragment
         android:id="@+id/nav_activity"
         android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.activity.ActivityFragment"
         android:label="Activity"
-        tools:layout="@layout/activity_fragment" />
+        tools:layout="@layout/fragment_activity" />
 
     <fragment
         android:id="@+id/nav_nutrition"
         android:name="com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.nutrition.NutritionFragment"
         android:label="Nutrition"
-        tools:layout="@layout/nutrition_fragment" />
+        tools:layout="@layout/fragment_nutrition" />
 
 </navigation>
