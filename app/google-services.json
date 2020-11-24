@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "424095015755",
+    "firebase_url": "https://weight-tracking-site.firebaseio.com",
+    "project_id": "weight-tracking-site",
+    "storage_bucket": "weight-tracking-site.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424095015755:android:a8bc7057426938fa3fbece",
+        "android_client_info": {
+          "package_name": "com.noyouaint.cs683_ovidio_reyna_weight_tracking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424095015755-t7jq93csppsr83u4ipka38al57tqe038.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHESW2KaHlZ5haI8DDX-4eki7zDw4qHzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424095015755-t7jq93csppsr83u4ipka38al57tqe038.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424095015755:android:f3bfef9aedfe26c63fbece",
+        "android_client_info": {
+          "package_name": "com.noyouaint.weightlosstrackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424095015755-t7jq93csppsr83u4ipka38al57tqe038.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHESW2KaHlZ5haI8DDX-4eki7zDw4qHzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424095015755-t7jq93csppsr83u4ipka38al57tqe038.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
