@@ -14,6 +14,27 @@
     <string name="menu_weight">Weight</string>
     <string name="menu_activity">Activity</string>
     <string name="menu_nutrition">Nutrition</string>
+
+    <string name="date_subtitle">Date</string>
+    <string name="date_hint">MM/DD/YYY</string>
+    <string name="add_button_text">Add</string>
+
+    <string name="weight_fragment_header">Enter Weight For Today</string>
+    <string name="weight_fragment_sub_header">Weight (in lbs)</string>
+    <string name="weight_fragment_weight_hint">300.4</string>
+    <string name="weight_fragment_table_header">Previous Weight Entries</string>
+
+    <string name="activity_fragment_header">Enter Activity For Today</string>
+    <string name="activity_fragment_sub_header">Length of Activity</string>
+    <string name="activity_fragment_third_header">Intensity of Activity</string>
+    <string name="activity_fragment_activity_hint">30</string>
+    <string name="activity_fragment_table_header">Previous Activity Entries</string>
+
+    <string name="nutrition_fragment_header">Enter Calories For Today</string>
+    <string name="nutrition_fragment_sub_header">Calories Consumed</string>
+    <string name="nutrition_fragment_calories_hint">3000</string>
+    <string name="nutrition_fragment_table_header">Previous Calories Consumed</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

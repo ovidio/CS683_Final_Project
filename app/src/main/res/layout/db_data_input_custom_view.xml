@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fragment_input_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragmentInputDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:labelFor="@+id/editTextDate"
+        android:contentDescription="date"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_input_header" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentInputDate"
+        android:layout_weight="1"
+        android:autofillHints="date" />
+
+    <TextView
+        android:id="@+id/fragmentInputSubHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:labelFor="@+id/editTextInputValue"
+        android:contentDescription="weight"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
+    <EditText
+        android:id="@+id/editTextInputValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentInputSubHeader"
+        android:layout_weight="1"
+        android:autofillHints="decimal number" />
+
+    <TextView
+        android:id="@+id/fragmentThirdInputHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:contentDescription="number"
+        android:labelFor="@+id/editTextDate"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/editTextInputValue" />
+
+    <EditText
+        android:id="@+id/fragmentThirdInputValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:autofillHints="date"
+        android:ems="10"
+        android:inputType="date"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentThirdInputHeader" />
+
+    <Button
+        android:id="@+id/updateDBDataButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="45dp"
+        android:text="@string/add_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/editTextInputValue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/dbDataInputTableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentThirdInputValue">
+
+    </TableLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
