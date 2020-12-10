@@ -7,10 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 
 import com.android.volley.Cache;
@@ -72,9 +74,10 @@ public class DashboardFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        spinner = (ProgressBar) getView().findViewById(R.id.progressBar);
-        spinner.setVisibility(View.VISIBLE);
+       getDBDAta(view);
+    }
 
+    private void getDBDAta(View view) {
         // Instantiate the cache
         Cache cache = new DiskBasedCache(requireActivity().getCacheDir(), 1024 * 1024); // 1MB cap
 
@@ -128,17 +131,10 @@ public class DashboardFragment extends Fragment {
         requestQueue.add(nutritionJsonObjectRequest);
     }
 
-    private static class CustomDataEntry extends ValueDataEntry {
-
-        CustomDataEntry(String x, Number value) {
-            super(x, value);
-        }
-
-    }
-
     private void PopulateLineChart(JSONObject dbObject, @NotNull List<String> xAxisKeys) {
         AnyChartView weightChartView = (AnyChartView) getView().findViewById(R.id.any_chart_weight_view);
         APIlib.getInstance().setActiveAnyChartView(weightChartView);
+
         Cartesian cartesian = AnyChart.line();
 
         cartesian.animation(true);
@@ -192,13 +188,24 @@ public class DashboardFragment extends Fragment {
         cartesian.legend().padding(0d, 0d, 10d, 0d);
 
         weightChartView.setChart(cartesian);
-        lineChartComplete = true;
-        if (barChartComplete) {
-            removeSpinner();
-        }
+
+        weightChartView.setVisibility(View.VISIBLE);
+
+        weightChartView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                lineChartComplete = true;
+                removeSpinner();
+
+                // prevent the listener to be called more than once
+                weightChartView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
+
     private void PopulateBarChart(JSONObject dbObject, @NotNull List<String> xAxisKeys) {
-        AnyChartView nutritionChartView = getView().findViewById(R.id.any_chart_nutrition_View);
+        AnyChartView nutritionChartView = getView().findViewById(R.id.any_chart_nutrition_view);
         APIlib.getInstance().setActiveAnyChartView(nutritionChartView);
 
         Cartesian cartesian = AnyChart.column();
@@ -241,13 +248,40 @@ public class DashboardFragment extends Fragment {
 
         nutritionChartView.setChart(cartesian);
 
-        barChartComplete = true;
-        if (lineChartComplete) {
-            removeSpinner();
+        nutritionChartView.setVisibility(View.VISIBLE);
+
+        nutritionChartView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                barChartComplete = true;
+                removeSpinner();
+
+                // prevent the listener to be called more than once
+                nutritionChartView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private static class CustomDataEntry extends ValueDataEntry {
+
+        CustomDataEntry(String x, Number value) {
+            super(x, value);
         }
+
     }
 
     private void removeSpinner() {
-        spinner.setVisibility(View.GONE);
+        if (lineChartComplete && barChartComplete) {
+            spinner = (ProgressBar) getView().findViewById(R.id.progressBar);
+
+            Handler timeout = new Handler();
+            final Runnable runnable = () -> {
+                Log.d(TAG, "both charts are rendered");
+                spinner.setVisibility(View.GONE);
+                timeout.removeCallbacksAndMessages(null);
+            };
+            timeout.postDelayed(runnable, 1000);
+        }
     }
 }
