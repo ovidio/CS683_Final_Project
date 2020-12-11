@@ -1,10 +1,12 @@
 package com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.dashboard;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -49,13 +51,14 @@ import java.util.List;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.R;
+import com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends BaseFragment {
     String TAG = "dashboard_fragment";
     private DatabaseReference weightDatabase, nutritionDatabase;
     private ProgressBar spinner;
@@ -66,14 +69,14 @@ public class DashboardFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         weightDatabase = FirebaseDatabase.getInstance().getReference().child("weight");
         nutritionDatabase = FirebaseDatabase.getInstance().getReference().child("calories");
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        view = setBackground(view);
 
-
-
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return view;
     }
 
     @SuppressLint("SetTextI18n")
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
        getDBDAta(view);
     }
 
@@ -131,13 +134,15 @@ public class DashboardFragment extends Fragment {
         requestQueue.add(nutritionJsonObjectRequest);
     }
 
+    @SuppressLint("ResourceType")
     private void PopulateLineChart(JSONObject dbObject, @NotNull List<String> xAxisKeys) {
-        AnyChartView weightChartView = (AnyChartView) getView().findViewById(R.id.any_chart_weight_view);
+        AnyChartView weightChartView = requireView().findViewById(R.id.any_chart_weight_view);
         APIlib.getInstance().setActiveAnyChartView(weightChartView);
 
         Cartesian cartesian = AnyChart.line();
 
         cartesian.animation(true);
+        cartesian.background("#" + getResources().getString(R.color.background).substring(3));
 
         cartesian.padding(10d, 20d, 5d, 20d);
 
@@ -152,6 +157,11 @@ public class DashboardFragment extends Fragment {
 
         cartesian.yAxis(0).title("Weight");
         cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
+        cartesian.yAxis(0).title().fontColor("#" + Color.BLACK);
+        cartesian.yAxis(0).labels().fontColor("#" + Color.BLACK);
+        cartesian.title().fontColor("#" + Color.BLACK);
+        cartesian.xAxis(0).labels().fontColor("#" + Color.BLACK);
+        cartesian.legend().fontColor("#" + Color.BLACK);
 
         List<DataEntry> seriesData = new ArrayList<>();
         for (int i = 0; i < xAxisKeys.size(); i++) {
@@ -204,11 +214,13 @@ public class DashboardFragment extends Fragment {
         });
     }
 
+    @SuppressLint("ResourceType")
     private void PopulateBarChart(JSONObject dbObject, @NotNull List<String> xAxisKeys) {
-        AnyChartView nutritionChartView = getView().findViewById(R.id.any_chart_nutrition_view);
+        AnyChartView nutritionChartView = requireView().findViewById(R.id.any_chart_nutrition_view);
         APIlib.getInstance().setActiveAnyChartView(nutritionChartView);
 
         Cartesian cartesian = AnyChart.column();
+        cartesian.background("#" + getResources().getString(R.color.background).substring(3));
 
         List<DataEntry> data = new ArrayList<>();
         for (int i = 0; i < xAxisKeys.size(); i++) {
@@ -245,6 +257,12 @@ public class DashboardFragment extends Fragment {
 
         cartesian.xAxis(0).title("Calories");
         cartesian.yAxis(0).title("Date");
+        cartesian.yAxis(0).title().fontColor("#" + Color.BLACK);
+        cartesian.xAxis(0).title().fontColor("#" + Color.BLACK);
+        cartesian.yAxis(0).labels().fontColor("#" + Color.BLACK);
+        cartesian.title().fontColor("#" + Color.BLACK);
+        cartesian.xAxis(0).labels().fontColor("#" + Color.BLACK);
+        cartesian.legend().fontColor("#" + Color.BLACK);
 
         nutritionChartView.setChart(cartesian);
 
@@ -273,7 +291,7 @@ public class DashboardFragment extends Fragment {
 
     private void removeSpinner() {
         if (lineChartComplete && barChartComplete) {
-            spinner = (ProgressBar) getView().findViewById(R.id.progressBar);
+            spinner = (ProgressBar) requireView().findViewById(R.id.progressBar);
 
             Handler timeout = new Handler();
             final Runnable runnable = () -> {

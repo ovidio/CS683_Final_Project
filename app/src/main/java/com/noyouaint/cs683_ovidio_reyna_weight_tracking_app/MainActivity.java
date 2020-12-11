@@ -1,8 +1,11 @@
 package com.noyouaint.cs683_ovidio_reyna_weight_tracking_app;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;

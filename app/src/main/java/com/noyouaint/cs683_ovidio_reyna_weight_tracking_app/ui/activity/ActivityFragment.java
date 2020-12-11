@@ -1,11 +1,15 @@
 package com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,29 +32,47 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.R;
+import com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class ActivityFragment extends Fragment implements View.OnClickListener {
+public class ActivityFragment extends BaseFragment implements View.OnClickListener {
     String TAG = "activity_fragment";
     private DatabaseReference activityDatabase;
+    DatePickerDialog picker;
+    EditText editDateText;
 
+    @SuppressLint("DefaultLocale")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         activityDatabase = FirebaseDatabase.getInstance().getReference().child("activity");
         View view = inflater.inflate(R.layout.fragment_activity, container, false);
+        view = setBackground(view);
         Button dbSaveButton = view.findViewById(R.id.updateDBDataButton);
         dbSaveButton.setOnClickListener(this);
+
+        editDateText = view.findViewById(R.id.editTextDate);
+        editDateText.setInputType(InputType.TYPE_NULL);
+        editDateText.setOnClickListener(v -> {
+            final Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
+            // date picker dialog
+            picker = new DatePickerDialog(getActivity(),
+                    (view1, year1, monthOfYear, dayOfMonth) -> editDateText.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear + 1, year1)), year, month, day);
+            picker.show();
+        });
 
         return view;
     }
@@ -76,7 +98,7 @@ public class ActivityFragment extends Fragment implements View.OnClickListener {
         fragmentInputDateView.setText(getResources().getString(R.string.date_subtitle));
         fragmentInputSubHeaderView.setText(getResources().getString(R.string.activity_fragment_sub_header));
         fragmentThirdInputHeaderView.setText(getResources().getString(R.string.activity_fragment_third_header));
-        editTextDateView.setHint(getResources().getString(R.string.date_hint));;
+        editTextDateView.setHint(getResources().getString(R.string.date_hint));
         editTextInputValueView.setHint(getResources().getString(R.string.activity_fragment_activity_hint));
         thirdInputTextView.setHint(getResources().getString(R.string.activity_fragment_activity_hint));
     }
@@ -122,13 +144,12 @@ public class ActivityFragment extends Fragment implements View.OnClickListener {
         Collections.reverse(dbKeysList);
 
         // instantiate tableLayout and clear all rows
-        TableLayout tableLayout = (TableLayout) requireActivity().findViewById(R.id.dbDataInputTableLayout);
+        TableLayout tableLayout = requireActivity().findViewById(R.id.dbDataInputTableLayout);
         tableLayout.removeAllViews();
 
         // for every key create a new row with Date and Activity
         for (int i = -1; i < dbKeysList.size(); i++) {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.setBackgroundResource(R.color.teal_200);
             tableRow.setPadding(5, 15, 15, 15);
 
             if (i >= 0) {
@@ -164,7 +185,6 @@ public class ActivityFragment extends Fragment implements View.OnClickListener {
                 tableRow.addView(thirdValueView);
             } else {
                 TableRow subTitleTableRow = new TableRow(getContext());
-                subTitleTableRow.setBackgroundResource(R.color.teal_200);
                 subTitleTableRow.setPadding(5, 15, 45, 15);
                 TextView subTitleTextView = new TextView(getContext());
                 subTitleTextView.setText(getResources().getString(R.string.activity_fragment_table_header));
@@ -177,7 +197,7 @@ public class ActivityFragment extends Fragment implements View.OnClickListener {
                         TableRow.LayoutParams.MATCH_PARENT);
                 viewParams.setMargins(45, 0, 0, 0);
 
-                subtitleView.setLayoutParams(viewParams);;
+                subtitleView.setLayoutParams(viewParams);
                 tableRow.addView(subtitleView);
             }
 
@@ -197,41 +217,46 @@ public class ActivityFragment extends Fragment implements View.OnClickListener {
         return dateArray[1] + "/" + dateArray[2];
     }
 
+    @SuppressLint("SimpleDateFormat")
     private String formatDateForDB(String rawDate) {
         // split string by forward slash
         String[] dateArray = rawDate.split("/");
 
-        // return string in YYYY-MM-DD format
-        return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
+        return dateArray[2] + "-" + dateArray[1] + "-" + formatDayForDB(dateArray[0]);
+    }
+
+    private String formatDayForDB(String day) {
+        if (Integer.parseInt(day) < 10) {
+            return "0" + day;
+        }
+
+        return day;
     }
 
     @Override
     public void onClick(View view) {
-        // grab edittext views
-        EditText dateView, valueView, thirdValueView;
-        dateView = view.findViewById(R.id.editTextDate);
-        valueView = view.findViewById(R.id.editTextInputValue);
-        thirdValueView = view.findViewById(R.id.fragmentThirdInputValue);
+        // grab edittext view
+        EditText valueView = requireActivity().findViewById(R.id.editTextInputValue);
+        EditText thirdValueView = view.findViewById(R.id.fragmentThirdInputValue);
 
         // get text value from edittexts
-        String dateInputValue = dateView.getText().toString();
+        Editable dateInputValue = editDateText.getText();
         Integer valueInputValue = Integer.parseInt(valueView.getText().toString());
         Integer thirdInputValue = Integer.parseInt(thirdValueView.getText().toString());
-        dateView.getText().clear();
         valueView.getText().clear();
         thirdValueView.getText().clear();
 
-        // create nested object needed for proper db formatting
+    // create nested object needed for proper db formatting
         Map<String, Object> activityTop = new HashMap<>();
         Map<String, Integer> activityNested1 = new HashMap<>();
         Map<String, Integer> activityNested2 = new HashMap<>();
         activityNested1.put("len_of_exer", valueInputValue);
         activityNested2.put("level_exer", thirdInputValue);
-        ArrayList<Map<String, Integer>> nestedItems = new ArrayList<Map<String, Integer>>();
+        ArrayList<Map<String, Integer>> nestedItems = new ArrayList<>();
         nestedItems.add(activityNested1);
         nestedItems.add(activityNested2);
 
-        activityTop.put(formatDateForDB(dateInputValue), nestedItems);
+        activityTop.put(formatDateForDB(dateInputValue.toString()), nestedItems);
 
         // update DB
         activityDatabase.updateChildren(activityTop);
