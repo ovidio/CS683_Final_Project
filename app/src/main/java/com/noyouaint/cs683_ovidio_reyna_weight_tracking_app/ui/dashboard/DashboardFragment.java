@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.util.Log;
@@ -64,6 +62,7 @@ public class DashboardFragment extends BaseFragment {
     private ProgressBar spinner;
     Boolean lineChartComplete = false;
     Boolean barChartComplete = false;
+    String cartesianTextColor = "#FFFFFF";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -142,7 +141,7 @@ public class DashboardFragment extends BaseFragment {
         Cartesian cartesian = AnyChart.line();
 
         cartesian.animation(true);
-        cartesian.background("#" + getResources().getString(R.color.background).substring(3));
+        cartesian.background("#" + getResources().getString(R.color.background_analogous_color).substring(3));
 
         cartesian.padding(10d, 20d, 5d, 20d);
 
@@ -157,11 +156,13 @@ public class DashboardFragment extends BaseFragment {
 
         cartesian.yAxis(0).title("Weight");
         cartesian.xAxis(0).labels().padding(5d, 5d, 5d, 5d);
-        cartesian.yAxis(0).title().fontColor("#" + Color.BLACK);
-        cartesian.yAxis(0).labels().fontColor("#" + Color.BLACK);
-        cartesian.title().fontColor("#" + Color.BLACK);
-        cartesian.xAxis(0).labels().fontColor("#" + Color.BLACK);
-        cartesian.legend().fontColor("#" + Color.BLACK);
+
+        // set chart text color
+        cartesian.title().fontColor(cartesianTextColor);
+        cartesian.legend().fontColor(cartesianTextColor);
+        cartesian.yAxis(0).title().fontColor(cartesianTextColor);
+        cartesian.yAxis(0).labels().fontColor(cartesianTextColor);
+        cartesian.xAxis(0).labels().fontColor(cartesianTextColor);
 
         List<DataEntry> seriesData = new ArrayList<>();
         for (int i = 0; i < xAxisKeys.size(); i++) {
@@ -220,7 +221,7 @@ public class DashboardFragment extends BaseFragment {
         APIlib.getInstance().setActiveAnyChartView(nutritionChartView);
 
         Cartesian cartesian = AnyChart.column();
-        cartesian.background("#" + getResources().getString(R.color.background).substring(3));
+        cartesian.background("#" + getResources().getString(R.color.background_analogous_color).substring(3));
 
         List<DataEntry> data = new ArrayList<>();
         for (int i = 0; i < xAxisKeys.size(); i++) {
@@ -257,12 +258,15 @@ public class DashboardFragment extends BaseFragment {
 
         cartesian.xAxis(0).title("Calories");
         cartesian.yAxis(0).title("Date");
-        cartesian.yAxis(0).title().fontColor("#" + Color.BLACK);
-        cartesian.xAxis(0).title().fontColor("#" + Color.BLACK);
-        cartesian.yAxis(0).labels().fontColor("#" + Color.BLACK);
-        cartesian.title().fontColor("#" + Color.BLACK);
-        cartesian.xAxis(0).labels().fontColor("#" + Color.BLACK);
-        cartesian.legend().fontColor("#" + Color.BLACK);
+
+        // set chart text color
+        cartesian.legend().fontColor(cartesianTextColor);
+        cartesian.title().fontColor(cartesianTextColor);
+        cartesian.yAxis(0).title().fontColor(cartesianTextColor);
+        cartesian.xAxis(0).title().fontColor(cartesianTextColor);
+        cartesian.yAxis(0).labels().fontColor(cartesianTextColor);
+        cartesian.xAxis(0).labels().fontColor(cartesianTextColor);
+
 
         nutritionChartView.setChart(cartesian);
 

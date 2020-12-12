@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <!-- Background -->
-                <item name="android:background">@color/background</item>
+                <item name="android:background">@color/background_analogous_color</item>
     </style>
 
     <style name="Theme.CS683_Ovidio_Reyna_Weight_Tracking_App.Dark.NoActionBar">

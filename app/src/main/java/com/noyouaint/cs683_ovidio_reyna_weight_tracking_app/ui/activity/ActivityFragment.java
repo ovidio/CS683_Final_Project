@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,13 +96,17 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         fragmentThirdInputHeaderView.setVisibility(View.VISIBLE);
         thirdInputTextView.setVisibility(View.VISIBLE);
 
-        fragInputHeaderView.setText(getResources().getString(R.string.activity_fragment_header));
+        SpannableString header = new SpannableString(getResources()
+                .getString(R.string.nutrition_fragment_header));
+        header.setSpan(new UnderlineSpan(), 0, header.length(), 0);
+
+        fragInputHeaderView.setText(header);
         fragmentInputDateView.setText(getResources().getString(R.string.date_subtitle));
         fragmentInputSubHeaderView.setText(getResources().getString(R.string.activity_fragment_sub_header));
         fragmentThirdInputHeaderView.setText(getResources().getString(R.string.activity_fragment_third_header));
         editTextDateView.setHint(getResources().getString(R.string.date_hint));
-        editTextInputValueView.setHint(getResources().getString(R.string.activity_fragment_activity_hint));
-        thirdInputTextView.setHint(getResources().getString(R.string.activity_fragment_activity_hint));
+        editTextInputValueView.setHint(getResources().getString(R.string.activity_fragment_activity_len_hint));
+        thirdInputTextView.setHint(getResources().getString(R.string.activity_fragment_activity_inten_hint));
     }
 
     private void getDBData(View view){
@@ -150,7 +156,9 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         // for every key create a new row with Date and Activity
         for (int i = -1; i < dbKeysList.size(); i++) {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.setPadding(5, 15, 15, 15);
+            tableRow.setPadding(0, i == -1 ? 0 : 15, 0, 15);
+            tableRow.setGravity(3);
+            tableRow.setWeightSum(1);
 
             if (i >= 0) {
                 String currentKeyValue = dbKeysList.get(i);
@@ -170,11 +178,13 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
                 }
 
                 // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT);
-                viewParams.setMargins(15, 0, 5, 0);
+                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
+                viewParams.width = 0;
+                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+                viewParams.weight = (float) 0.33;
 
                 // set params for text views
+
                 dateTextView.setLayoutParams(viewParams);
                 valueTextView.setLayoutParams(viewParams);
                 thirdValueView.setLayoutParams(viewParams);
@@ -184,18 +194,14 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
                 tableRow.addView(valueTextView);
                 tableRow.addView(thirdValueView);
             } else {
-                TableRow subTitleTableRow = new TableRow(getContext());
-                subTitleTableRow.setPadding(5, 15, 45, 15);
-                TextView subTitleTextView = new TextView(getContext());
-                subTitleTextView.setText(getResources().getString(R.string.activity_fragment_table_header));
-
                 TextView subtitleView = new TextView(getContext());
                 subtitleView.setText(getResources().getString(R.string.activity_fragment_table_header));
 
                 // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT);
-                viewParams.setMargins(45, 0, 0, 0);
+                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
+                viewParams.width = TableRow.LayoutParams.WRAP_CONTENT;
+                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+
 
                 subtitleView.setLayoutParams(viewParams);
                 tableRow.addView(subtitleView);
@@ -204,7 +210,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
             // add row and table layout params to table layout
             TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
-            tableLayoutParams.setMargins(45, i == -1 ? 30 : 0, 0, 0);
+            tableLayoutParams.setMargins(15,0, 0, 0);
             tableLayout.addView(tableRow, tableLayoutParams);
         }
     }

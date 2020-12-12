@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +100,11 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         TextView fragmentInputSubHeaderView = view.findViewById(R.id.fragmentInputSubHeader);
         EditText editTextInputValueView = view.findViewById(R.id.editTextInputValue);
 
-        fragInputHeaderView.setText(getResources().getString(R.string.weight_fragment_header));
+        SpannableString header = new SpannableString(getResources()
+                .getString(R.string.nutrition_fragment_header));
+        header.setSpan(new UnderlineSpan(), 0, header.length(), 0);
+
+        fragInputHeaderView.setText(header);
         fragmentInputDateView.setText(getResources().getString(R.string.date_subtitle));
         editTextDateView.setHint(getResources().getString(R.string.date_hint));
         fragmentInputSubHeaderView.setText(getResources().getString(R.string.weight_fragment_sub_header));
@@ -149,16 +155,13 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
         // instantiate tableLayout and clear all rows
         TableLayout tableLayout = requireActivity().findViewById(R.id.dbDataInputTableLayout);
         tableLayout.removeAllViews();
-        TableRow subTitleTableRow = new TableRow(getContext());
-
-        subTitleTableRow.setPadding(5, 15, 45, 15);
-        TextView subTitleTextView = new TextView(getContext());
-        subTitleTextView.setText(getResources().getString(R.string.weight_fragment_table_header));
 
         // for every key create a new row with Date and Weight
         for (int i = -1; i < dbKeysList.size(); i++) {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.setPadding(5, 15, 45, 15);
+            tableRow.setPadding(0, i == -1 ? 0 : 15, 0, 15);
+            tableRow.setGravity(3);
+            tableRow.setWeightSum(1);
 
             if (i >= 0) {
                 // instantiate text views and set Date and Weight from DB
@@ -175,7 +178,9 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
                 // create view params and set margins
                 TableRow.LayoutParams viewParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT);
-                viewParams.setMargins(45, 0, 0, 0);
+                viewParams.width = 0;
+                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+                viewParams.weight = (float) 0.5;
 
                 // set params for text views
                 dateTextView.setLayoutParams(viewParams);
@@ -185,13 +190,14 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
                 tableRow.addView(dateTextView);
                 tableRow.addView(valueTextView);
             } else {
-             TextView subtitleView = new TextView(getContext());
-             subtitleView.setText(getResources().getString(R.string.weight_fragment_table_header));
+                 TextView subtitleView = new TextView(getContext());
+                 subtitleView.setText(getResources().getString(R.string.weight_fragment_table_header));
 
                 // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT);
-                viewParams.setMargins(45, 0, 0, 0);
+                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
+                viewParams.width = TableRow.LayoutParams.WRAP_CONTENT;
+                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+
 
                 subtitleView.setLayoutParams(viewParams);
                 tableRow.addView(subtitleView);
@@ -200,7 +206,7 @@ public class WeightFragment extends BaseFragment implements View.OnClickListener
             // add row and table layout params to table layout
             TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
-            tableLayoutParams.setMargins(45, 0, 0, 0);
+            tableLayoutParams.setMargins(15, 0, 0, 0);
             tableLayout.addView(tableRow, tableLayoutParams);
         }
     }

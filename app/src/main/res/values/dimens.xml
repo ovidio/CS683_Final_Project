@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">256dp</dimen>
+    <dimen name="nav_header_height">236dp</dimen>
     <dimen name="nav_header_gif_width">178dp</dimen>
     <dimen name="nav_header_gif_height">100dp</dimen>
     <dimen name="nav_header_width">200dp</dimen>

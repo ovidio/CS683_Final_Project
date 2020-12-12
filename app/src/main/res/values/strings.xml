@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">CS683_Ovidio_Reyna_Weight_Tracking_App</string>
+    <string name="app_name">Weight Tracking App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Ovi\'s Weight Tracking App</string>
+    <string name="nav_header_title">Weight Tracking</string>
     <string name="nav_header_subtitle">oreyna@bu.edu</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -21,19 +21,24 @@
 
     <string name="weight_fragment_header">Enter Weight For Today</string>
     <string name="weight_fragment_sub_header">Weight (in lbs)</string>
-    <string name="weight_fragment_weight_hint">300.4</string>
+    <string name="weight_fragment_weight_hint">300.4 lbs</string>
     <string name="weight_fragment_table_header">Previous Weight Entries</string>
 
     <string name="activity_fragment_header">Enter Activity For Today</string>
     <string name="activity_fragment_sub_header">Length of Activity</string>
     <string name="activity_fragment_third_header">Intensity of Activity</string>
     <string name="activity_fragment_activity_hint">30</string>
+    <string name="activity_fragment_activity_len_hint">30 mins</string>
+    <string name="activity_fragment_activity_inten_hint">5 units</string>
     <string name="activity_fragment_table_header">Previous Activity Entries</string>
 
     <string name="nutrition_fragment_header">Enter Calories For Today</string>
     <string name="nutrition_fragment_sub_header">Calories Consumed</string>
-    <string name="nutrition_fragment_calories_hint">3000</string>
+    <string name="nutrition_fragment_calories_hint">3000 calories</string>
     <string name="nutrition_fragment_table_header">Previous Calories Consumed</string>
+    <string name="date_edittext_hint">date</string>
+    <string name="weight_edittext_hint">weight</string>
+    <string name="number_edittext_hint">number</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
