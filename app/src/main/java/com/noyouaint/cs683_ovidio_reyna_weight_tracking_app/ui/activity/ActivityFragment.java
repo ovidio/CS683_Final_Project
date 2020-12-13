@@ -90,6 +90,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         EditText editTextDateView = view.findViewById(R.id.editTextDate);
         TextView fragmentInputSubHeaderView = view.findViewById(R.id.fragmentInputSubHeader);
         EditText editTextInputValueView = view.findViewById(R.id.editTextInputValue);
+        TextView customFragmentTableHeader = view.findViewById(R.id.customFragmentTableHeader);
 
         TextView fragmentThirdInputHeaderView = view.findViewById(R.id.fragmentThirdInputHeader);
         EditText thirdInputTextView = view.findViewById(R.id.fragmentThirdInputValue);
@@ -104,6 +105,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         fragmentInputDateView.setText(getResources().getString(R.string.date_subtitle));
         fragmentInputSubHeaderView.setText(getResources().getString(R.string.activity_fragment_sub_header));
         fragmentThirdInputHeaderView.setText(getResources().getString(R.string.activity_fragment_third_header));
+        customFragmentTableHeader.setText(getResources().getString(R.string.activity_fragment_table_header));
         editTextDateView.setHint(getResources().getString(R.string.date_hint));
         editTextInputValueView.setHint(getResources().getString(R.string.activity_fragment_activity_len_hint));
         thirdInputTextView.setHint(getResources().getString(R.string.activity_fragment_activity_inten_hint));
@@ -124,7 +126,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
 
         // Instantiate the RequestQueue.
         requestQueue = Volley.newRequestQueue(view.getContext());
-        String activityUrl = activityDatabase + ".json" + "?orderBy=\"$priority\"&limitToLast=10&print=pretty";
+        String activityUrl = activityDatabase + ".json" + "?orderBy=\"$priority\"&limitToLast=30&print=pretty";
 
         JsonObjectRequest activityJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, activityUrl, null, response -> {
             Log.d(TAG, "activity raw response: " + response.toString());
@@ -154,58 +156,44 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         tableLayout.removeAllViews();
 
         // for every key create a new row with Date and Activity
-        for (int i = -1; i < dbKeysList.size(); i++) {
+        for (int i = 0; i < dbKeysList.size(); i++) {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.setPadding(0, i == -1 ? 0 : 15, 0, 15);
+            tableRow.setPadding(0, 15, 0, 15);
             tableRow.setGravity(3);
             tableRow.setWeightSum(1);
 
-            if (i >= 0) {
-                String currentKeyValue = dbKeysList.get(i);
+            String currentKeyValue = dbKeysList.get(i);
 
-                // instantiate text views and set Date and Activity from DB
-                TextView dateTextView = new TextView(getContext());
-                TextView valueTextView = new TextView(getContext());
-                TextView thirdValueView = new TextView(getContext());
-                dateTextView.setText(String.format("Date: %s", formatDateForDisplay(currentKeyValue)));
-                try {
-                    valueTextView.setText(String.format("Length: %s",
-                            dbObject.getJSONObject(currentKeyValue).get("len_of_exer")));
-                    thirdValueView.setText(String.format("Level: %s",
-                            dbObject.getJSONObject(currentKeyValue).get("level_exer")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
-                viewParams.width = 0;
-                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
-                viewParams.weight = (float) 0.33;
-
-                // set params for text views
-
-                dateTextView.setLayoutParams(viewParams);
-                valueTextView.setLayoutParams(viewParams);
-                thirdValueView.setLayoutParams(viewParams);
-
-                // add views to table row
-                tableRow.addView(dateTextView);
-                tableRow.addView(valueTextView);
-                tableRow.addView(thirdValueView);
-            } else {
-                TextView subtitleView = new TextView(getContext());
-                subtitleView.setText(getResources().getString(R.string.activity_fragment_table_header));
-
-                // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
-                viewParams.width = TableRow.LayoutParams.WRAP_CONTENT;
-                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
-
-
-                subtitleView.setLayoutParams(viewParams);
-                tableRow.addView(subtitleView);
+            // instantiate text views and set Date and Activity from DB
+            TextView dateTextView = new TextView(getContext());
+            TextView valueTextView = new TextView(getContext());
+            TextView thirdValueView = new TextView(getContext());
+            dateTextView.setText(String.format("Date: %s", formatDateForDisplay(currentKeyValue)));
+            try {
+                valueTextView.setText(String.format("Length: %s",
+                        dbObject.getJSONObject(currentKeyValue).get("len_of_exer")));
+                thirdValueView.setText(String.format("Level: %s",
+                        dbObject.getJSONObject(currentKeyValue).get("level_exer")));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            // create view params and set margins
+            TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
+            viewParams.width = 0;
+            viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+            viewParams.weight = (float) 0.33;
+
+            // set params for text views
+
+            dateTextView.setLayoutParams(viewParams);
+            valueTextView.setLayoutParams(viewParams);
+            thirdValueView.setLayoutParams(viewParams);
+
+            // add views to table row
+            tableRow.addView(dateTextView);
+            tableRow.addView(valueTextView);
+            tableRow.addView(thirdValueView);
 
             // add row and table layout params to table layout
             TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(

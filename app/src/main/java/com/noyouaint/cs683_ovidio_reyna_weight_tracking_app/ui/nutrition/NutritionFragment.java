@@ -96,6 +96,7 @@ public class NutritionFragment extends BaseFragment implements View.OnClickListe
         EditText editTextDateView = view.findViewById(R.id.editTextDate);
         TextView fragmentInputSubHeaderView = view.findViewById(R.id.fragmentInputSubHeader);
         EditText editTextInputValueView = view.findViewById(R.id.editTextInputValue);
+        TextView customFragmentTableHeader = view.findViewById(R.id.customFragmentTableHeader);
 
         SpannableString header = new SpannableString(getResources()
                 .getString(R.string.nutrition_fragment_header));
@@ -103,8 +104,9 @@ public class NutritionFragment extends BaseFragment implements View.OnClickListe
 
         fragInputHeaderView.setText(header);
         fragmentInputDateView.setText(getResources().getString(R.string.date_subtitle));
-        editTextDateView.setHint(getResources().getString(R.string.date_hint));
         fragmentInputSubHeaderView.setText(getResources().getString(R.string.nutrition_fragment_sub_header));
+        customFragmentTableHeader.setText(getResources().getString(R.string.nutrition_fragment_table_header));
+        editTextDateView.setHint(getResources().getString(R.string.date_hint));
         editTextInputValueView.setHint(getResources().getString(R.string.nutrition_fragment_calories_hint));
     }
 
@@ -123,7 +125,7 @@ public class NutritionFragment extends BaseFragment implements View.OnClickListe
 
         // Instantiate the RequestQueue.
         requestQueue = Volley.newRequestQueue(view.getContext());
-        String nutritionUrl = nutritionDatabase + ".json" + "?orderBy=\"$priority\"&limitToLast=10&print=pretty";
+        String nutritionUrl = nutritionDatabase + ".json" + "?orderBy=\"$priority\"&limitToLast=30&print=pretty";
 
         JsonObjectRequest nutritionJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, nutritionUrl, null, response -> {
             Log.d(TAG, "nutrition raw response: " + response.toString());
@@ -153,50 +155,36 @@ public class NutritionFragment extends BaseFragment implements View.OnClickListe
         tableLayout.removeAllViews();
 
         // for every key create a new row with Date and Calories
-        for (int i = -1; i < dbKeysList.size(); i++) {
+        for (int i = 0; i < dbKeysList.size(); i++) {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.setPadding(0, i == -1 ? 0 : 15, 0, 15);
+            tableRow.setPadding(0, 15, 0, 15);
             tableRow.setGravity(3);
             tableRow.setWeightSum(1);
 
-            if (i >= 0) {
-                // instantiate text views and set Date and Calories from DB
-                TextView dateTextView = new TextView(getContext());
-                dateTextView.setText(String.format("Date: %s", formatDateForDisplay(dbKeysList.get(i))));
-                TextView valueTextView = new TextView(getContext());
-                try {
-                    valueTextView.setText(String.format("Calories: %s",
-                            dbObject.getJSONObject(dbKeysList.get(i)).get("calories")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
-                viewParams.width = 0;
-                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
-                viewParams.weight = (float) 0.5;
-
-                // set params for text views
-                dateTextView.setLayoutParams(viewParams);
-                valueTextView.setLayoutParams(viewParams);
-
-                // add views to table row
-                tableRow.addView(dateTextView);
-                tableRow.addView(valueTextView);
-            } else {
-                TextView subtitleView = new TextView(getContext());
-                subtitleView.setText(getResources().getString(R.string.nutrition_fragment_table_header));
-
-                // create view params and set margins
-                TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
-                viewParams.width = TableRow.LayoutParams.WRAP_CONTENT;
-                viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
-
-
-                subtitleView.setLayoutParams(viewParams);
-                tableRow.addView(subtitleView);
+            // instantiate text views and set Date and Calories from DB
+            TextView dateTextView = new TextView(getContext());
+            dateTextView.setText(String.format("Date: %s", formatDateForDisplay(dbKeysList.get(i))));
+            TextView valueTextView = new TextView(getContext());
+            try {
+                valueTextView.setText(String.format("Calories: %s",
+                        dbObject.getJSONObject(dbKeysList.get(i)).get("calories")));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            // create view params and set margins
+            TableRow.LayoutParams viewParams = new TableRow.LayoutParams();
+            viewParams.width = 0;
+            viewParams.height = TableRow.LayoutParams.WRAP_CONTENT;
+            viewParams.weight = (float) 0.5;
+
+            // set params for text views
+            dateTextView.setLayoutParams(viewParams);
+            valueTextView.setLayoutParams(viewParams);
+
+            // add views to table row
+            tableRow.addView(dateTextView);
+            tableRow.addView(valueTextView);
 
             // add row and table layout params to table layout
             TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(

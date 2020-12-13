@@ -94,17 +94,42 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/add_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/tableScrollView"
+        app:layout_constraintBottom_toTopOf="@+id/customFragmentTableHeaderLayout"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TableLayout
+        android:id="@+id/customFragmentTableHeaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentThirdInputValue"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp">
+        <TableRow
+            android:id="@+id/customFragmentTableHeaderRow"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="start" >
+            <TextView
+                android:id="@+id/customFragmentTableHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:contentDescription="@string/custom_fragment_table_header_default"
+                android:text="@string/custom_fragment_table_header_default"
+                android:visibility="visible"/>
+        </TableRow>
+    </TableLayout>
 
     <ScrollView
         android:id="@+id/tableScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentThirdInputValue"
+        app:layout_constraintTop_toBottomOf="@+id/customFragmentTableHeaderLayout"
         app:layout_constraintBottom_toBottomOf="parent">
         <TableLayout
             android:id="@+id/dbDataInputTableLayout"

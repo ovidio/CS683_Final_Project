@@ -18,6 +18,7 @@
     <string name="date_subtitle">Date</string>
     <string name="date_hint">MM/DD/YYY</string>
     <string name="add_button_text">Add</string>
+    <string name="custom_fragment_table_header_default">Previous Entries</string>
 
     <string name="weight_fragment_header">Enter Weight For Today</string>
     <string name="weight_fragment_sub_header">Weight (in lbs)</string>
