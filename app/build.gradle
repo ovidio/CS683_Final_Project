@@ -1,10 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-// Apply the Crashlytics Gradle plugin
-apply plugin: 'com.google.firebase.crashlytics'
-
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('C:\\Users\\ovidi\\OneDrive\\BU_Stuff\\MSSD_Course_Work\\BU_Classes\\CS683_Mobile_Application_Development\\Final_Project\\weightgapp.jks')
+            storePassword 'Libertad4198*'
+            keyAlias 'key0'
+            keyPassword 'Libertad4198*'
+        }
+    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -13,19 +19,13 @@ android {
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,23 +33,30 @@ android {
 }
 
 dependencies {
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
-
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
-    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.2'
+    implementation 'androidx.navigation:navigation-ui:2.3.2'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.firebase:firebase-database:19.5.1'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+
+    // Anychart and gif player dependencies
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
+
+    // Firebase dependencies
+    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
     implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
+
+    // Google Sign in
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }

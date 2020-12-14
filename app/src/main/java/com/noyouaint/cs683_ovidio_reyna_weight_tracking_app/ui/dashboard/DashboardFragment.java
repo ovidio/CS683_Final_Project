@@ -1,12 +1,7 @@
 package com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.ui.dashboard;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -35,17 +34,13 @@ import com.anychart.core.cartesian.series.Line;
 import com.anychart.data.Mapping;
 import com.anychart.data.Set;
 import com.anychart.enums.Anchor;
+import com.anychart.enums.HoverMode;
 import com.anychart.enums.MarkerType;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
-import com.anychart.enums.HoverMode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.noyouaint.cs683_ovidio_reyna_weight_tracking_app.R;
@@ -55,6 +50,11 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 
 public class DashboardFragment extends BaseFragment {
     String TAG = "dashboard_fragment";
@@ -63,11 +63,27 @@ public class DashboardFragment extends BaseFragment {
     Boolean lineChartComplete = false;
     Boolean barChartComplete = false;
     String cartesianTextColor = "#FFFFFF";
+    String userEmail;
+    String userUID;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            userEmail = user.getEmail();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            userUID = user.getUid();
+            Log.d(TAG, "User email: " + userEmail + " and user uid: " + userUID);
+        }
+
         weightDatabase = FirebaseDatabase.getInstance().getReference().child("weight");
         nutritionDatabase = FirebaseDatabase.getInstance().getReference().child("calories");
+
+
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         view = setBackground(view);
 
@@ -77,6 +93,7 @@ public class DashboardFragment extends BaseFragment {
     @SuppressLint("SetTextI18n")
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
        getDBDAta(view);
+
     }
 
     private void getDBDAta(View view) {

@@ -22,7 +22,5 @@
         android:background="@color/nav_drawer_color"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-<!--        android:background="@drawable/side_nav_bar"-->
-
 
 </androidx.drawerlayout.widget.DrawerLayout>
